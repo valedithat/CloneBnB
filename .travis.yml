@@ -8,4 +8,4 @@ before_script:
 - rake db:migrate
 - rake db:test:prepare
 
-script: bundle exec rspec
+script: bundle exec rspec spec
