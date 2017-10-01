@@ -53,6 +53,3 @@ query params:
 
 ### Properties ranked by highest rated for a city, give limit
 `/api/v1/listings/highest_rated?city=denver&limit=num`
-
-
-DERP
