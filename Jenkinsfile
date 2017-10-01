@@ -6,20 +6,5 @@ pipeline {
 		stage('build') {
 			sh 'ruby --version'
 		}
-		stage('Test on Linux') {
-				agent {
-						label 'linux'
-				}
-				steps {
-						unstash 'app'
-						sh 'sh rspec'
-				}
-				post {
-						always {
-								junit '**/target/*.xml'
-						}
-				}
-			}
-		}
 	}
 }
