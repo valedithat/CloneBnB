@@ -59,6 +59,8 @@ GEM
       xpath (~> 2.0)
     case_transform (0.2)
       activesupport
+    ci_reporter (2.0.0)
+      builder (>= 2.1.2)
     climate_control (0.2.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
@@ -237,6 +239,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   byebug
   capybara
+  ci_reporter
   coffee-rails (~> 4.2)
   fabrication
   faker
@@ -261,4 +264,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.15.0
+   1.15.4
