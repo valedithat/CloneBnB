@@ -211,9 +211,7 @@ describe Listing do
       Fabricate(:listing, city: "Reno", state: "NV")
       cities_listings = Listing.listings_per_city
       expect(cities_listings.count).to eq(3)
-      expect(cities_listings.first.first).to eq("Reno")
-      expect(cities_listings.to_a.last.first).to eq("Denver")
-      expect(cities_listings.to_a.last.last).to eq(3)
+      expect(cities_listings).to eq({"Reno"=>1, "Tucson"=>2, "Denver"=>3})
     end
   end
 
