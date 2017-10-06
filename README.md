@@ -1,8 +1,7 @@
 # README
 
 ## Production
-    https://clonebnb1.herokuapp.com/
-
+    https://clonebnb-airbnb-look-a-like.herokuapp.com/
 ## About
     This projects is a look-a-like of AirBnb written in ruby using a rails framework. We used postrgresql as our databases and rspec for our test suite.
 
