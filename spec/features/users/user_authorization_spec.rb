@@ -27,7 +27,7 @@ describe "user authorization" do
   end
 
   it "user dashboard be viewed by an admin" do
-    admin = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    admin = Fabricate(:user)
     admin.roles.create(title: "admin")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
     visit dashboard_path

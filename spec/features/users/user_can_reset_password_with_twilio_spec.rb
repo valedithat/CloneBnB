@@ -2,11 +2,9 @@ require 'rails_helper'
 
 describe "user tries to log in" do
   xit "they have forgotten password" do
-    user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: '+15202621279', password: "123")
+    user =  Fabricate(:user)
     user.roles.create(title: "traveler")
-
     allow_any_instance_of(TwilioService).to receive(:send_password_code).and_return("1234")
-
     visit login_path
 
     click_on "Forgot Password?"

@@ -2,25 +2,17 @@ require 'rails_helper'
 
 describe "a user can see trips" do
   it "with a role of traveler" do
-    user = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    user = Fabricate(:user)
     user.roles.create!(title: "traveler")
-    listing = Fabricate(:listing,
-                        title: "Super Cool Pad",
-                        cost_per_night: 30,
-                        street_address: "123 Street",
-                        city: "Denver")
+    listing = Fabricate(:listing, title: "Super Cool Pad", cost_per_night: 30)
     Fabricate.times(3, :image, listing: listing)
-    start_date = "01/01/2018"
-    end_date = "04/01/2018"
     reservation = Reservation.create!(listing: listing,
                                       user: user,
-                                      start_date: start_date,
-                                      end_date: end_date)
+                                      start_date: "01/01/2018",
+                                      end_date: "04/01/2018")
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-
     visit dashboard_path
-
     within(".sidebar") do
       click_on "Trips"
     end
@@ -38,12 +30,12 @@ describe "a user can see trips" do
     end
 
     within(".my-trips .records") do
-      expect(page).to have_link("Super Cool Pad")
+      expect(page).to have_link(listing.title)
       expect(page).to have_content("1/1/2018")
       expect(page).to have_content("1/4/2018")
       expect(page).to have_content("$90")
       expect(page).to have_content("pending")
-      expect(page).to have_content("123 Street Denver")
+      expect(page).to have_content(listing.street_address)
       expect(page).to have_link("##{reservation.id}")
     end
 
@@ -53,20 +45,15 @@ describe "a user can see trips" do
   end
 
   it "with the role of a host" do
-    host = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    host = Fabricate(:user)
+    #host = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
     host.roles.create!(title: "host")
-    listing = Fabricate(:listing,
-                        title: "Super Cool Pad",
-                        cost_per_night: 30,
-                        street_address: "123 Street",
-                        city: "Denver")
+    listing = Fabricate(:listing, title: "Super Cool Pad", cost_per_night: 30)
     Fabricate.times(3, :image, listing: listing)
-    start_date = "01/01/2018"
-    end_date = "04/01/2018"
     reservation = Reservation.create!(listing: listing,
                                       user: host,
-                                      start_date: start_date,
-                                      end_date: end_date)
+                                      start_date: "1/1/2018",
+                                      end_date: "4/1/2018")
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(host)
 
@@ -97,12 +84,12 @@ describe "a user can see trips" do
     end
 
     within(".my-trips .records") do
-      expect(page).to have_link("Super Cool Pad")
+      expect(page).to have_link(listing.title)
       expect(page).to have_content("1/1/2018")
       expect(page).to have_content("1/4/2018")
       expect(page).to have_content("$90")
       expect(page).to have_content("pending")
-      expect(page).to have_content("123 Street Denver")
+      expect(page).to have_content(listing.street_address)
       expect(page).to have_link("##{reservation.id}")
     end
 

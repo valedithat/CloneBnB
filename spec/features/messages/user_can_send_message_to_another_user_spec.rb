@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "traveler can send a message" do
   it "when they are logged in" do
     listing_1 = Fabricate(:listing)
-    image_1, image_2, image_3 = Fabricate.times(3, :image, listing: listing_1)
+    image = Fabricate.times(3, :image, listing: listing_1)
 
     traveler = Fabricate(:user)
     traveler.roles.create!(title: "traveler")
@@ -24,7 +24,7 @@ describe "traveler can send a message" do
 
   it "they cannot send messages if not logged in" do
     listing_1 = Fabricate(:listing)
-    image_1, image_2, image_3 = Fabricate.times(3, :image, listing: listing_1)
+    image = Fabricate.times(3, :image, listing: listing_1)
 
     visit "/listings/#{listing_1.id}"
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "a user can view trip details" do
   it "as a logged in traveller" do
-    user = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    user = Fabricate(:user)
     user.roles.create!(title: "traveler")
     listing = Fabricate(:listing,
                         title: "Super Cool Pad",
@@ -10,15 +10,12 @@ describe "a user can view trip details" do
                         street_address: "123 Street",
                         city: "Denver")
     Fabricate.times(3, :image, listing: listing)
-    start_date = "01/01/2018"
-    end_date = "04/01/2018"
     reservation = Reservation.create!(listing: listing,
                                       user: user,
-                                      start_date: start_date,
-                                      end_date: end_date)
+                                      start_date: "1/1/2018",
+                                      end_date: "4/1/2018")
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-
     visit dashboard_path
 
     within(".sidebar") do
@@ -34,22 +31,22 @@ describe "a user can view trip details" do
       expect(page).to have_link("Trips")
     end
 
-    expect(page).to have_link("Super Cool Pad")
+    expect(page).to have_link(listing.title)
     expect(page).to have_content("1-1-2018")
     expect(page).to have_content("1-4-2018")
     within("#total") do
       expect(page).to have_content("Total Price: $90")
     end
     expect(page).to have_content("Status: pending")
-    expect(page).to have_content("123 Street Denver")
+    expect(page).to have_content(listing.street_address)
 
-    click_on "Super Cool Pad"
+    click_on listing.title
 
     expect(current_path).to eq(listing_path(listing))
   end
 
   it "as a logged in host" do
-    user = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    user = Fabricate(:user)
     user.roles.create!(title: "host")
     listing = Fabricate(:listing,
                         title: "Super Cool Pad",

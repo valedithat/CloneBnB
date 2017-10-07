@@ -2,12 +2,7 @@ require 'rails_helper'
 
 describe "creating a reservation" do
   it "can be made for a logged in user" do
-    user = User.create!(email: "email@email.com",
-                        first_name: "Castle",
-                        last_name: "Pines",
-                        about_me: "Boop beep boop",
-                        phone_number: "853-343-2343",
-                        password: "123")
+    user = Fabricate(:user)
     user.roles.create!(title: "traveler")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     listing = Fabricate(:listing, cost_per_night: 10)
@@ -58,12 +53,7 @@ describe "creating a reservation" do
   end
 
   it "cannot make a reservation for a listing that is booked on that date" do
-    user = User.create!(email: "email@email.com",
-                        first_name: "Castle",
-                        last_name: "Pines",
-                        about_me: "Boop beep boop",
-                        phone_number: "853-343-2343",
-                        password: "123")
+    user = Fabricate(:user)
     user.roles.create!(title: "traveler")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     listing = Fabricate(:listing)

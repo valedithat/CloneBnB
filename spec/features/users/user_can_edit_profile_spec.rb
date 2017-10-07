@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "a logged in user" do
   it "can edit their profile" do
-    user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    user = Fabricate(:user)
     user.roles.create(title: "traveler")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit dashboard_path
@@ -20,9 +20,8 @@ describe "a logged in user" do
   end
 
   it "cannot edit the profile of another user" do
-    user = User.create(email: "email@email.com", first_name: "User", last_name: "Name", about_me: "Logged in", phone_number: "853-343-2343", password: "123")
+    user, host = Fabricate.times(2, :user)
     user.roles.create(title: "traveler")
-    host = User.create(email: "host@email.com", first_name: "Castle", last_name: "Pines", about_me: "Not", phone_number: "853-343-9943", password: "123")
     host.roles.create(title: "host")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 

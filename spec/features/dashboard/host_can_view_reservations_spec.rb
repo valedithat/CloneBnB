@@ -8,15 +8,8 @@ describe "host can view reservations" do
     host = Fabricate(:user)
     host.roles.create!(title: "host")
     host.roles.create!(title: "traveler")
-    listing = host.listings.create!(street_address: "1432 Axer Lane",
-                                    city: "San Fran",
-                                    state: "CA", zipcode: "45488",
-                                    description: "Its cool",
-                                    max_occupancy: 2,
-                                    number_beds: 1,
-                                    number_rooms: 1,
-                                    number_baths: 1)
-
+    listing = Fabricate(:listing, user: host)
+    
     res_one = listing.reservations.create!(start_date: "1/3/2012",
                                         end_date: "1/4/2012",
                                         user_id: traveler.id,

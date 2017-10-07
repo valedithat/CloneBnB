@@ -2,35 +2,29 @@ require "rails_helper"
 
 describe "traveler can make a review" do
   it "for each listing a traveler has stayed at" do
-    traveler = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    traveler, other_traveler, host = Fabricate.times(3, :user)
     traveler.roles.create!(title: "traveler")
-
-    other_traveler = User.create!(email: "buttons@big-buttons.com", first_name: "Maria", last_name: "Smith", about_me: "Boop beep boop", phone_number: "853-343-3453", password: "123")
     other_traveler.roles.create!(title: "traveler")
-
-    host = User.create!(email: "derpl@email.com", first_name: "Monster", last_name: "Can", about_me: "Boop beep boop", phone_number: "012-343-3453", password: "123")
     host.roles.create!(title: "traveler")
     host.roles.create!(title: "host")
 
-    a_listing = host.listings.create!(street_address: "9001 Derp Road", description: "derp", city: "Denver", state: "CO", zipcode: "35343", max_occupancy: "2", title: "cool", list_category: "house", number_beds: "1", number_rooms: "1", cost_per_night: 234, number_baths: 1)
-    b_listing = host.listings.create!(street_address: "1212 Derp Lane", description: "derp", city: "Denver", state: "CO", zipcode: "35343", max_occupancy: "2", title: "cool", list_category: "house", number_beds: "1", number_rooms: "1", cost_per_night: 234, number_baths: 1)
-    image_1, image_2, image_3 = Fabricate.times(3, :image, listing: a_listing)
-    image_4, image_5, image_6 = Fabricate.times(3, :image, listing: b_listing)
-
-    one = traveler.reservations.create!(start_date: "4/1/17", end_date: "4/2/17", listing_id: a_listing.id, status: "complete")
-    two = other_traveler.reservations.create!(start_date: "4/1/17", end_date: "4/2/17", listing_id: b_listing.id, status: "complete")
+    a_listing, b_listing = Fabricate.times(2, :listing, user: host)
+    #a_listing = host.listings.create!(street_address: "9001 Derp Road", description: "derp", city: "Denver", state: "CO", zipcode: "35343", max_occupancy: "2", title: "cool", list_category: "house", number_beds: "1", number_rooms: "1", cost_per_night: 234, number_baths: 1)
+    #b_listing = host.listings.create!(street_address: "1212 Derp Lane", description: "derp", city: "Denver", state: "CO", zipcode: "35343", max_occupancy: "2", title: "cool", list_category: "house", number_beds: "1", number_rooms: "1", cost_per_night: 234, number_baths: 1)
+    Fabricate.times(3, :image, listing: a_listing)
+    Fabricate.times(3, :image, listing: b_listing)
+    traveler.reservations.create!(start_date: "4/1/17", end_date: "4/2/17", listing_id: a_listing.id, status: "complete")
+    other_traveler.reservations.create!(start_date: "4/1/17", end_date: "4/2/17", listing_id: b_listing.id, status: "complete")
 
     visit root_path
     click_on "Login"
-
     fill_in "session[email]", with: traveler.email
     fill_in "session[password]", with: traveler.password
     within(".login_btn") do
       click_on "Login"
     end
-
     click_on "Reviews"
-
+    
     expect(page).to have_content(a_listing.street_address)
 
     within(".listing_#{a_listing.id}") do

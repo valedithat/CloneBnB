@@ -2,7 +2,8 @@ require "rails_helper"
 
 describe "user can edit profile" do
   it "from their dashboard" do
-    traveler = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    traveler = Fabricate(:user)
+    #traveler = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
     traveler.roles.create!(title: "traveler")
 
     visit login_path
@@ -28,9 +29,8 @@ describe "user can edit profile" do
     expect(page).to have_content("451-124-1555")
   end
   it "but not other users' profiles" do
-    traveler_1 = User.create!(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+    traveler_1, traveler_2 = Fabricate.times(2, :user)
     traveler_1.roles.create!(title: "traveler")
-    traveler_2 = User.create!(email: "next@email.com", first_name: "The", last_name: "Carlton", about_me: "I jiggy wit it", phone_number: "853-343-2344", password: "123")
     traveler_2.roles.create!(title: "traveler")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(traveler_1)
 

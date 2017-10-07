@@ -8,6 +8,7 @@ describe "from the host dashboard" do
     host = Fabricate(:user)
     host.roles.create!(title: "host")
     host.roles.create!(title: "traveler")
+    #listing = Fabricate(:listing)
     listing = host.listings.create!(street_address: "1432 Axer Lane",
                                     city: "San Fran",
                                     state: "CA", zipcode: "45488",
@@ -34,12 +35,6 @@ describe "from the host dashboard" do
                                           user_id: traveler.id,
                                           status: "confirmed",
                                           listing_id: listing.id)
-
-    res_four = listing.reservations.create!(start_date: "16/3/2012",
-                                         end_date: "17/4/2012",
-                                         user_id: traveler.id,
-                                         status: "confirmed",
-                                         listing_id: listing.id)
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(host)
 
