@@ -29,7 +29,7 @@ describe Permission do
 
   describe "#traveler_user_permissions" do
     it "allows a traveler to interact with the sessions controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("sessions")
       permission = Permission.new(user)
@@ -37,7 +37,7 @@ describe Permission do
     end
 
     it "allows a traveler to interact with the home controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("home")
       permission = Permission.new(user)
@@ -45,7 +45,7 @@ describe Permission do
     end
 
     it "allows a traveler to interact with the users controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("users")
       permission = Permission.new(user)
@@ -53,7 +53,7 @@ describe Permission do
     end
 
     it "allows a traveler to interact with the dashboard controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("dashboard")
       permission = Permission.new(user)
@@ -63,7 +63,7 @@ describe Permission do
 
   describe "#host_user_permissions" do
     it "allows a host to interact with the dashboard controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("dashboard")
       permission = Permission.new(user)
@@ -71,7 +71,7 @@ describe Permission do
     end
 
     it "allows a host to interact with the home controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("home")
       permission = Permission.new(user)
@@ -79,7 +79,7 @@ describe Permission do
     end
 
     it "allows a host to interact with the sessions controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("sessions")
       permission = Permission.new(user)
@@ -87,7 +87,7 @@ describe Permission do
     end
 
     it "allows a host to interact with the users controller" do
-      user = User.create(email: "email@email.com", first_name: "Castle", last_name: "Pines", about_me: "Boop beep boop", phone_number: "853-343-2343", password: "123")
+      user = Fabricate(:user)
       user.roles.new(title: "traveler")
       allow_any_instance_of(Permission).to receive(:controller).and_return("users")
       permission = Permission.new(user)

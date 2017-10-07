@@ -14,7 +14,6 @@ describe "a user can view trip details" do
                                       user: user,
                                       start_date: "1/1/2018",
                                       end_date: "4/1/2018")
-
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit dashboard_path
 

@@ -45,12 +45,7 @@ describe Listing do
 
   describe "#most_vists(city, limit)" do
     it "returns an ordered list of listings for a city descending by total number of successful reservations" do
-      user = User.create!(email: "email@email.com",
-                          first_name: "Castle",
-                          last_name: "Pines",
-                          about_me: "Boop beep boop",
-                          phone_number: "853-343-2343",
-                          password: "123")
+      user = Fabricate(:user)
       user.roles.create!(title: "traveler")
 
       listing_one, listing_two, listing_three = Fabricate.times(3, :listing, city: "Denver", state: "CO")
@@ -152,12 +147,7 @@ describe Listing do
 
   describe "#most_visited_cities" do
     it "returns cities for listings in order of most visited" do
-      user = User.create!(email: "email@email.com",
-                          first_name: "Castle",
-                          last_name: "Pines",
-                          about_me: "Boop beep boop",
-                          phone_number: "853-343-2343",
-                          password: "123")
+      user = Fabricate(:user)
       user.roles.create!(title: "traveler")
 
       listing_one = Fabricate(:listing, city: "Denver")
@@ -206,7 +196,7 @@ describe Listing do
 
   describe "#listings_per_city" do
     it "returns cities with number of listings per city" do
-      listing_one, listing_two, listing_three = Fabricate.times(3, :listing, city: "Denver", state: "CO")
+      Fabricate.times(3, :listing, city: "Denver", state: "CO")
       Fabricate.times(2, :listing, city: "Tucson", state: "AZ")
       Fabricate(:listing, city: "Reno", state: "NV")
       cities_listings = Listing.listings_per_city
@@ -254,44 +244,31 @@ describe Listing do
 
   describe "#listings_ranked_in_city" do
     it "returns the listings ranked by average rating in a city" do
-      user = User.create!(email: "email@email.com",
-                          first_name: "Castle",
-                          last_name: "Pines",
-                          about_me: "Boop beep boop",
-                          phone_number: "853-343-2343",
-                          password: "123")
+      user = Fabricate(:user)
       user.roles.create!(title: "traveler")
-
-      listing_one = Fabricate(:listing, city: "Denver")
-      listing_two = Fabricate(:listing, city: "Denver")
-      listing_three = Fabricate(:listing, city: "Denver")
+      listing_one, listing_two, listing_three = Fabricate.times(3, :listing, city: "Denver")
       Fabricate.times(2, :listing, city: "Tucson", state: "AZ")
-
       3.times do
         Review.create!(title: "nice title",
                        message: "this is the thing",
                        stars: 3,
                        listing: listing_one)
       end
-
       3.times do
         Review.create!(title: "nice title",
                        message: "this is the thing",
                        stars: 4,
                        listing: listing_two)
       end
-
       3.times do
         Review.create!(title: "nice title",
                        message: "this is the thing",
                        stars: 5,
                        listing: listing_three)
       end
-
       Review.create!(title: "Nice", message: "message", stars: 1, listing: listing_one)
       Review.create!(title: "Nice", message: "message", stars: 1, listing: listing_two)
       Review.create!(title: "Nice", message: "message", stars: 1, listing: listing_three)
-
       highest_rated_listings = Listing.listings_ranked_in_city(city: "Denver", limit: 3)
       expect(highest_rated_listings.to_a.count).to eq(3)
       expect(highest_rated_listings.first.id).to eq(listing_three.id)

@@ -36,43 +36,40 @@ describe Reservation do
 
   describe "#host_first_name" do
     it "returns the first name of the host" do
-      traveler = Fabricate(:user)
-      user = Fabricate(:user, first_name: "Hi")
+      traveler, user = Fabricate.times(2, :user)
       listing = Fabricate(:listing, user: user)
        Reservation.create!(listing: listing,
                            user: traveler,
                            start_date: "01/02/2020",
                            end_date: "04/02/2020",
                            status: "pending")
-      expect(Reservation.last.host_first_name).to eq("Hi")
+      expect(Reservation.last.host_first_name).to eq(user.first_name)
     end
   end
 
   describe "#host_last_name" do
     it "returns the last name of the host" do
-      user = Fabricate(:user, last_name: "Hi")
+      user, traveler = Fabricate.times(2, :user, last_name: "Hi")
       listing = Fabricate(:listing, user: user)
-      traveler = Fabricate(:user)
        Reservation.create!(listing: listing,
                            user: traveler,
                            start_date: "01/02/2020",
                            end_date: "04/02/2020",
                            status: "pending")
-      expect(Reservation.last.host_last_name).to eq("Hi")
+      expect(Reservation.last.host_last_name).to eq(traveler.last_name)
     end
   end
 
   describe "#host_email" do
     it "returns the host's email" do
-      user = Fabricate(:user, email: "hi@email.com")
+      user, traveler = Fabricate.times(2, :user)
       listing = Fabricate(:listing, user: user)
-      traveler = Fabricate(:user)
        Reservation.create!(listing: listing,
                            user: traveler,
                            start_date: "01/02/2020",
                            end_date: "04/02/2020",
                            status: "pending")
-      expect(Reservation.last.host_email).to eq("hi@email.com")
+      expect(Reservation.last.host_email).to eq(user.email)
     end
   end
 
