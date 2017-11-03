@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.create(user_params) #fix?
     @user.roles.create(title: "traveler")
     if @user.save
       session[:user_id] = @user.id

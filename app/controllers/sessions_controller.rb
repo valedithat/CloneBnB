@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   before_action :check_user_status, only: [:create]
 
   def create
-    user = User.find_by_email(params[:session][:email])
+    user = User.find_by_email(params[:session][:email]) #sanitize?
     if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
       flash[:success] = "Logged in as #{user.first_name} #{user.last_name}"

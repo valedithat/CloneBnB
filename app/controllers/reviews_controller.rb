@@ -3,6 +3,6 @@ class ReviewsController < ApplicationController
     listing_ids = current_user.reservations.where(status: "complete").map do |reservation|
       reservation.listing_id
     end
-    @completed_trips = Listing.where(id: [listing_ids])
+    @completed_trips = Listing.where(id: [listing_ids])  #fix and sanitize?
   end
 end

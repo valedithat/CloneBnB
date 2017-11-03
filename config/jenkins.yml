@@ -1,0 +1,11 @@
+    username: <%= ENV['JENKINS_USERNAME'] %>
+    password: <%= ENV['JENKINS_PASSWORD'] %>
+    host:     <%= ENV['JENKINS_HOST']     %>
+    port:        #optional, default is 8080
+    jobs:
+      -
+        name:         'Job 1'    #compulsory
+        scm_provider: 'git'      #compulsory
+        scm_url:      'git://github.com/apraditya/sampleapp.git'  #compulsory
+        scm_branch:   'master'   #optional, default is 'master' if scm is git
+        shell_script: 'config/jenkins_script'
