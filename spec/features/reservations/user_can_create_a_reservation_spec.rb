@@ -2,12 +2,14 @@ require 'rails_helper'
 
 describe "creating a reservation" do
   it "can be made for a logged in user" do
-    user = Fabricate(:user)
+    user, host = Fabricate.times(2, :user)
     user.roles.create!(title: "traveler")
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-    listing = Fabricate(:listing, cost_per_night: 10)
+    listing = Fabricate(:listing, cost_per_night: 10, user: host)
     image = Fabricate.times(3, :image, listing: listing)
-    host = listing.user
+
+    # res = Fabricate(:reservation, listing: listing, user: user)
+
 
     expect(Reservation.count).to eq(0)
 
@@ -72,29 +74,29 @@ describe "creating a reservation" do
     click_on "Book Now"
     expect(current_path).to eq(new_listing_reservation_path(listing))
 
-    fill_in("reservation[start_date]", with: "01/01/2018")
-    fill_in("reservation[end_date]", with: "03/01/2018")
+    fill_in("reservation[start_date]", with: "01/01/2028")
+    fill_in("reservation[end_date]", with: "03/01/2028")
 
     click_on "Confirm Reservation"
 
-    expect(Reservation.count).to eq(1)
+    expect(Reservation.count).to eq(2)
 
-    expect(page).to_not have_content("Check-in")
-    expect(page).to_not have_content("Check-out")
-    expect(page).to_not have_content("Reservation ID:")
+    expect(page).to have_content("Check-in")
+    expect(page).to have_content("Check-out")
+    expect(page).to have_content("Reservation ID:")
   end
 
   it "cannot be created by a guest" do
     listing = Fabricate(:listing)
-    image = Fabricate.times(3, :image, listing: listing)
+    Fabricate.times(3, :image, listing: listing)
 
     visit listing_path(listing)
     click_on "Book Now"
 
     expect(current_path).to eq(new_listing_reservation_path(listing))
 
-    fill_in("reservation[start_date]", with: "01/01/2018")
-    fill_in("reservation[end_date]", with: "03/01/2018")
+    fill_in("reservation[start_date]", with: "01/01/2020")
+    fill_in("reservation[end_date]", with: "03/01/2020")
 
     expect(page).to_not have_link("Confirm Reservation")
     expect(page).to have_link("Login to Make Reservation")

@@ -3,7 +3,7 @@ class Listings::ReviewsController < ApplicationController
   end
 
   def create
-    listing = Listing.find(listing_params)
+    listing = Listing.find(params[:listing_id])
     review  = listing.reviews.new(review_params)
     if review.save
       redirect_to listing_path(listing)
@@ -18,8 +18,8 @@ class Listings::ReviewsController < ApplicationController
   def review_params
     params.require(:review).permit(:title, :stars, :message)
   end
-
-  def listing_params
-    params.require(:listing).permit(:listing_id)
-  end
+  #
+  # def listing_params
+  #   params.require(:listing).permit(:listing_id)
+  # end
 end

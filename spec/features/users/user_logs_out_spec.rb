@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "a logged in user" do
   it "can log out" do
     user = Fabricate(:user)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit login_path
 
     within(".navbar") do

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "user logs in" do
   it "as a traveler" do
     user = Fabricate(:user)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create(title: "traveler")
     visit root_path
 
@@ -37,6 +38,7 @@ describe "user logs in" do
 
   it "as a host" do
     user = Fabricate(:user)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create!(title: "host")
     user.roles.create!(title: "traveler")
     visit root_path
@@ -63,6 +65,7 @@ describe "user logs in" do
 
   it "doesn't input email correctly" do
     user = Fabricate(:user)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create(title: "traveler")
     visit root_path
     click_on "Login"
@@ -79,6 +82,7 @@ describe "user logs in" do
 
   it "doesn't input password correctly" do
     user = Fabricate(:user)
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create(title: "traveler")
     visit root_path
     click_on "Login"
@@ -96,6 +100,7 @@ describe "user logs in" do
 
   it "with a status of inactive" do
     user = Fabricate(:user, email: "user@email.com", status: "inactive")
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create(title: "traveler")
 
     visit root_path

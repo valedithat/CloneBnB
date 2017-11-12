@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "user tries to log in" do
   xit "they have forgotten password" do
     user =  Fabricate(:user)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     user.roles.create(title: "traveler")
     allow_any_instance_of(TwilioService).to receive(:send_password_code).and_return("1234")
     visit login_path

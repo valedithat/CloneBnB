@@ -2,10 +2,9 @@ require 'rails_helper'
 
 describe "from the host dashboard" do
   it "a host can update a reservation's status" do
-    traveler = Fabricate(:user)
+    traveler, host = Fabricate.times(2, :user)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(host)
     traveler.roles.create!(title: "traveler")
-
-    host = Fabricate(:user)
     host.roles.create!(title: "host")
     host.roles.create!(title: "traveler")
     #listing = Fabricate(:listing)
@@ -35,8 +34,6 @@ describe "from the host dashboard" do
                                           user_id: traveler.id,
                                           status: "confirmed",
                                           listing_id: listing.id)
-
-    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(host)
 
     visit dashboard_path
     click_on "Reservations"

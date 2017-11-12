@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "user authorization" do
   it "a guest cannot view a user's information" do
     user = Fabricate(:user)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     visit dashboard_path
 
     expect(page).to have_content("You don't have to go home, but you can't stay here! Error 404")

@@ -13,7 +13,12 @@
       <ul class="nav navbar-nav navbar-right">
         <% if current_user %>
           <li><a href="<%= dashboard_path %>">My Dashboard</a></li>
+          <% if current_user.admin?%>
+            <li><a href="<%= admin_dashboard_path %>">Admin Dashboard</a></li>
           <% end %>
+        <% end %>
+
+
         <% if current_user && !current_user.host? %>
           <li><a href="<%= edit_user_path(current_user) %>">Become a Host</a></li>
           <li><a href="/logout">Logout</a></li>

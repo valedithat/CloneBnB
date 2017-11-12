@@ -32,7 +32,7 @@ class CodesController < ApplicationController
   end
 
   def reset
-    @code = Code.find(code_id_param)
+    @code = Code.find(params[:code_id])
     #@code = Code.find(params[:code_id])
   end
 
@@ -53,8 +53,8 @@ class CodesController < ApplicationController
   def code_params
     params.require(:code).permit(:phone_number)
   end
-
-  def code_id_param
-    params.require(:code).permit(:code_id)
-  end
+  #
+  # def code_id_param
+  #   params.require(:code).permit(:code_id)
+  # end
 end

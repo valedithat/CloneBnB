@@ -1,11 +1,11 @@
 class ReservationsController < ApplicationController
   def new
-    @listing = Listing.find(listing_params)
+    @listing = Listing.find(params[:listing_id])
     @reservation = Reservation.new
   end
 
   def create
-    @listing = Listing.find(listing_params)
+    @listing = Listing.find(params[:listing_id])
     @reservation = @listing.reservations.new(reservation_params)
     @reservation.user = current_user
     if @reservation.no_overlapping? && @reservation.save
@@ -18,16 +18,16 @@ class ReservationsController < ApplicationController
   end
 
   def show
-    @reservation = Reservation.find(reservation_id_param)
+    @reservation = Reservation.find(params[:id])
   end
 
   def index
-    user = User.find(user_id_param)
+    user = User.find(params[:user_id])
     @listings = user.listings
   end
 
   def update
-    @reservation = Reservation.find(reservation_id_param)
+    @reservation = Reservation.find(params[:id])
     if @reservation.update!(status: params[:status]) #sanitize??
       flash[:success] = "reservation #{@reservation.id} updated to #{@reservation.status}"
       redirect_to user_reservations_path(current_user)
@@ -42,15 +42,15 @@ class ReservationsController < ApplicationController
     params.require(:reservation).permit(:start_date, :end_date, :status)
   end
 
-  def reservation_id_param
-    params.require(:reservation).permit(:id)
-  end
+  # def reservation_id_param
+  #   params.require(:reservation).permit(:id)
+  # end
 
-  def user_id_param
-    params.requrire(:user).permit(:user_id)
-  end
+  # def user_id_param
+  #   params.requrire(:user).permit(:user_id)
+  # end
 
-  def listing_params
-    params.require(:listing).permit(:listing_id)
-  end
+  # def listing_params
+  #   params.require(:listing).permit(:listing_id)
+  # end
 end

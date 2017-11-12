@@ -4,11 +4,11 @@ class Admin::ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.find(listing_params)
+    @listing = Listing.find(params[:id])
   end
 
   def destroy
-    listing = Listing.find(listing_params)
+    listing = Listing.find(params[:id])
     listing.images.delete
     listing.reservations.delete
     listing.delete
@@ -16,9 +16,9 @@ class Admin::ListingsController < ApplicationController
     redirect_to admin_listings_path
   end
 
-  private
-
-  def listing_params
-    params.require(:listing).permit(:id)
-  end
+  # private
+  #
+  # def listing_params
+  #   params.require(:listing).permit(:id)
+  # end
 end

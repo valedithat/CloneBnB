@@ -4,14 +4,14 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.find(listing_id_param)
+    @listing = Listing.find(params[:id])
     @reservation_listing = @listing.user_stayed_at?(current_user)
     render file: "public/404" unless @listing.user.status == "active"
   end
-
-  private
-
-  def listing_id_param
-    params.require(:listing).permit(:id)
-  end
+  #
+  # private
+  #
+  # def listing_id_param
+  #   params.require(:listing).permit(:id)
+  # end
 end
